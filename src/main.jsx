@@ -16,6 +16,7 @@ import Signup from './pages/SignUp';
 import AllPosts from './pages/AllPost';
 import AddPost from './pages/AddPost';
 import EditPost from './pages/EditPost';
+import Post from './pages/post.jsx'
 import AuthLayout from './components/AuthLayout';
 
 const router = createBrowserRouter([
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
             <EditPost />
           </AuthLayout>
         ),
+      },
+      {
+        path: "/post/:slug",
+        element: <Post />,
       },
     ],
   },

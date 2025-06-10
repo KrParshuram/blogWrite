@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback ,useEffect} from "react";
 import {useForm} from "react-hook-form"
 import Button from "../Button"
 import Input from "../Input"
@@ -9,21 +9,52 @@ import {useSelector } from "react-redux"
 import {useNavigate} from "react-router-dom"
 
 
-export default function PostForm({post}){
-    const {register, handleSubmit, watch, setValue, control, getValues} = useForm({
+export default function PostForm({post}) {
+    const {
+        register,
+        handleSubmit,
+        watch,
+        setValue,
+        control,
+        getValues,
+        reset // 
+    } = useForm({
         defaultValues: {
-            title: post?.title || "",
-            slug: post?.slug || "",
-            content: post?.content || "",
-            status: post?.status || "active"
-
+            title: "",
+            slug: "",
+            content: "",
+            status: "active"
         }
-    })
+    });
 
-    const navigate = useNavigate()
-    const userData = useSelector((state) => state.auth.userData)
+    const navigate = useNavigate();
+    const userData = useSelector((state) => state.auth.userData);
+
+
+    useEffect(() => {
+    if (post) {
+        console.log("Editing post from post form:", post);
+        reset({
+            title: post.title || "",
+            slug: post.slug || "",
+            content: post.content || "",
+            status: post.status || "active"
+        });
+
+        
+        setTimeout(() => {
+        setValue("content", post.content || "");
+        }, 0);
+    }
+    }, [post, reset, setValue]);
+
+
+
+
+
 
     const submit = async(data) => {
+        console.log("Form submitted with data:", data);
         if (post) {
             const file = data.image[0] ? await appwriteSerice.uploadFile(data.image[0]) : null
 
@@ -67,13 +98,18 @@ export default function PostForm({post}){
     return (
         <form onSubmit={handleSubmit(submit)}
         className="flex flex-wrap"
-        >
+        >   <div className="w-full mb-6 px-2 ">
+            <h2 className="text-2xl font-semibold text-white tracking-wide bg-gradient-to-r from-gray-900 via-blue-900 to-black p-4 rounded-lg shadow-xl flex justify-center">
+                {post ? "Update Your Blog Post" : "Create a New Blog Post"}
+            </h2>
+            </div>
             <div className="w-2/3 px-2">
                 <Input
                 label="Title"
                 placeholder="Title"
                 className="mb-4"
                 {...register("title", {required: true})}
+                
                 />
                 <Input
                 label="Slug :"
@@ -88,10 +124,10 @@ export default function PostForm({post}){
                 label="Content: "
                 name="content"
                 control={control}
-                defaultValue={getValues("content")}
+                
                 />
             </div>
-            <div className="1/3 px-2">
+            <div className="w-1/3 px-2">
                 <Input
                 label="Featured Image"
                 type="file"

@@ -1,24 +1,23 @@
-import React from 'react';
-import { Controller } from 'react-hook-form';
-import { Editor } from '@tinymce/tinymce-react';
+import React from 'react'
+import { Editor } from '@tinymce/tinymce-react'
+import { Controller } from 'react-hook-form'
 
-function RTE({ name = "content", control, label, defaultValue = "" }) {
+export default function RTE({ name = "content", control, label }) {
+
+
   return (
-    <div className="w-full">
-      {label && <label className="inline-block mb-1 pl-1">{label}</label>}
+    <div className='w-full'>
+      {label && <label className='inline-block mb-1 pl-1'>{label}</label>}
+
       <Controller
         name={name}
         control={control}
-        defaultValue={defaultValue}
-        render={({ field: { onChange, onBlur, value, ref } }) => (
+        render={({ field: { onChange, value } }) => (
           <Editor
-            value={value}
-            onEditorChange={(content) => onChange(content)}
-            onBlur={onBlur}
-            textareaName={name}
-            apiKey="your-tinymce-api-key" // Optional, use if you have one
+            apiKey='df0kat8pdc8cg61b319wdkkikjweny7f8sp3pfd1os2inlo7'
+            value={value} //
+            onEditorChange={onChange} 
             init={{
-              branding: false,
               height: 500,
               menubar: true,
               plugins: [
@@ -27,6 +26,7 @@ function RTE({ name = "content", control, label, defaultValue = "" }) {
                 "autolink",
                 "lists",
                 "link",
+                "image",
                 "charmap",
                 "preview",
                 "anchor",
@@ -37,25 +37,19 @@ function RTE({ name = "content", control, label, defaultValue = "" }) {
                 "insertdatetime",
                 "media",
                 "table",
+                "code",
                 "help",
                 "wordcount",
+                "anchor",
               ],
               toolbar:
                 "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
-              content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
-            // Attach ref for accessibility, though Editor might not support it fully
-            // So you may ignore if causes errors.
-            // ref={ref}
           />
         )}
       />
     </div>
-  );
+  )
 }
-
-export default RTE;
-
-
-
-

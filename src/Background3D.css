@@ -1,0 +1,83 @@
+/* Background3D.css */
+
+.background-3d {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+  background: radial-gradient(circle at center, #f0f4ff 0%, #e0e7ff 100%);
+  perspective: 1500px;
+}
+
+.cube {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: rgba(27, 62, 177, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px rgba(165, 180, 252, 0.3),
+              0 0 30px rgba(255, 255, 255, 0.2) inset;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  transform-style: preserve-3d;
+  animation: cubeFloat 15s infinite ease-in-out alternate;
+  opacity: 0.85;
+}
+
+@keyframes cubeFloat {
+  0% {
+    transform: translateY(0) rotateX(0deg) rotateY(0deg) translateZ(0);
+  }
+  50% {
+    transform: translateY(-80px) rotateX(180deg) rotateY(90deg) translateZ(40px);
+  }
+  100% {
+    transform: translateY(0) rotateX(360deg) rotateY(360deg) translateZ(0);
+  }
+}
+
+/* Dynamic positions and styles */
+.cube:nth-child(1) {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+.cube:nth-child(2) {
+  top: 40%;
+  left: 80%;
+  animation-delay: 2s;
+  width: 50px;
+  height: 50px;
+}
+.cube:nth-child(3) {
+  top: 70%;
+  left: 30%;
+  animation-delay: 4s;
+}
+.cube:nth-child(4) {
+  top: 30%;
+  left: 50%;
+  animation-delay: 1s;
+  width: 80px;
+  height: 80px;
+}
+.cube:nth-child(5) {
+  top: 60%;
+  left: 60%;
+  animation-delay: 3s;
+  width: 40px;
+  height: 40px;
+}
+.cube:nth-child(6) {
+  top: 85%;
+  left: 20%;
+  animation-delay: 5s;
+}
+.cube:nth-child(7) {
+  top: 15%;
+  left: 70%;
+  animation-delay: 6s;
+}

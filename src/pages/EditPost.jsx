@@ -15,6 +15,7 @@ function EditPost() {
     if (slug) {
       appwriteService.getPost(slug).then((post) => {
         if (post) {
+          console.log("Fetched post from editpost component:", post);
           setPost(post)
         }else {
           navigate("/")
@@ -32,4 +33,4 @@ function EditPost() {
   )
 }
 
-export default EditPost
+export default EditPost;
