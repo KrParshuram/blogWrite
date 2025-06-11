@@ -70,14 +70,14 @@ function Post() {
 
   return (
     <motion.section
-      className="bg-gray-50 py-10 min-h-screen"
+      className="bg-gray-50 py-12 min-h-screen"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.7 }}
     >
       <Container>
         <motion.article
-          className="bg-white rounded-3xl shadow-xl max-w-5xl mx-auto overflow-hidden"
+          className="bg-gray rounded-3xl shadow-2xl max-w-5xl mx-auto overflow-hidden"
           initial="hidden"
           animate="visible"
           variants={{
@@ -98,28 +98,32 @@ function Post() {
             <motion.img
               src={imageUrl}
               alt={post.Title}
-              className="w-full h-[22rem] object-cover"
+              className="w-full h-[30rem] object-cover rounded-t-3xl"
               loading="lazy"
-              initial={{ scale: 1.05, opacity: 0 }}
+              initial={{ scale: 1.5, opacity: 0.3 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.5 }}
             />
 
             {isAuthor && (
               <motion.div
-                className="absolute top-4 right-4 flex gap-3 backdrop-blur-lg bg-white/80 rounded-full px-3 py-2 shadow-lg"
+                className="absolute top-4 right-4 flex gap-4 bg-white/90 backdrop-blur-lg rounded-full px-4 py-2 shadow-lg border border-gray-200"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1 }}
               >
                 <Link to={`/edit-post/${post.$id}`}>
-                  <button className="text-green-600 hover:text-green-700 hover:scale-110 transition-transform">
+                  <button
+                    className="text-green-600 hover:text-green-700 hover:scale-110 transition duration-200"
+                    title="Edit Post"
+                  >
                     <FaEdit size={18} />
                   </button>
                 </Link>
                 <button
                   onClick={deletePost}
-                  className="text-red-600 hover:text-red-700 hover:scale-110 transition-transform"
+                  className="text-red-600 hover:text-red-700 hover:scale-110 transition duration-200"
+                  title="Delete Post"
                 >
                   <FaTrash size={18} />
                 </button>
@@ -128,9 +132,9 @@ function Post() {
           </motion.div>
 
           {/* Content */}
-          <div className="p-8 md:p-12">
+          <div className="px-6 md:px-10 py-10">
             <motion.h1
-              className="text-4xl font-bold text-gray-900 mb-4"
+              className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight"
               variants={fadeVariant}
               custom={1}
             >
@@ -138,37 +142,56 @@ function Post() {
             </motion.h1>
 
             <motion.div
-              className="flex gap-4 text-gray-500 text-sm mb-4 flex-wrap"
+              className="flex flex-wrap items-center gap-3 text-gray-600 text-sm md:text-base mb-6"
               variants={fadeVariant}
               custom={2}
             >
-              <span>👤 {authorName}</span>
-              <span>•</span>
-              <span>{formattedDate}</span>
+              <span className="flex items-center gap-1">👤 <strong>{authorName}</strong></span>
+              <span className="hidden md:inline">•</span>
+              <span className="text-gray-500">{formattedDate}</span>
             </motion.div>
 
             <motion.div
-              className="flex flex-wrap gap-2 mb-6"
+              className="flex flex-wrap gap-2 mb-8"
               variants={fadeVariant}
               custom={2.5}
             >
               {tags.map((tag, i) => (
                 <span
                   key={i}
-                  className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full"
+                  className="bg-blue-600/10 text-blue-800 text-sm font-medium px-3 py-1 rounded-xl shadow-sm"
                 >
                   #{tag}
                 </span>
               ))}
             </motion.div>
 
-            <motion.div
-              className="prose prose-lg max-w-none text-gray-800"
-              variants={fadeVariant}
-              custom={3}
-            >
-              {typeof post.Content === 'string' ? parse(post.Content) : null}
-            </motion.div>
+           <motion.div
+  className="
+    prose prose-lg md:prose-xl max-w-none 
+    prose-slate dark:prose-invert 
+    text-gray-800 dark:text-gray-100 
+    leading-relaxed transition-colors duration-300 
+    bg-white dark:bg-gray-900 
+    p-4 md:p-6 rounded-2xl shadow-lg 
+    overflow-x-auto 
+    scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent
+
+    [&_pre]:bg-gray-100 dark:[&_pre]:bg-zinc-800 
+    [&_pre]:text-sm [&_pre]:rounded-lg [&_pre]:px-4 [&_pre]:py-3 [&_pre]:overflow-x-auto 
+    [&_pre]:shadow-inner
+
+    [&_code]:text-green-600 dark:[&_code]:text-green-400 [&_code]:font-semibold
+
+    [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:pl-4 [&_ul]:marker:text-blue-600 dark:[&_ul]:marker:text-blue-400
+    [&_li]:mb-1
+  "
+  variants={fadeVariant}
+  custom={3}
+>
+  {typeof post.Content === 'string' ? parse(post.Content) : null}
+</motion.div>
+
           </div>
         </motion.article>
       </Container>
