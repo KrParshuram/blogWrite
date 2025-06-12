@@ -32,7 +32,7 @@ export default function RTE({ name = "content", control, label }) {
                   font-family:Helvetica,Arial,sans-serif;
                   font-size:14px;
                   background-color: transparent;
-                  color: ${window.matchMedia('(prefers-color-scheme: dark)').matches ? '#e5e7eb' : '#111827'};
+                  color:'#000b24';
                 }
               `,
               branding: false,
