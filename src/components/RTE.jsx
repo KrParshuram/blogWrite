@@ -1,11 +1,15 @@
-import React from 'react'
-import { Editor } from '@tinymce/tinymce-react'
-import { Controller } from 'react-hook-form'
+import React from 'react';
+import { Editor } from '@tinymce/tinymce-react';
+import { Controller } from 'react-hook-form';
 
 export default function RTE({ name = "content", control, label }) {
   return (
     <div className="w-full">
-      {label && <label className="inline-block mb-1 pl-1 text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>}
+      {label && (
+        <label className="inline-block mb-1 pl-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+          {label}
+        </label>
+      )}
 
       <Controller
         name={name}
@@ -18,6 +22,7 @@ export default function RTE({ name = "content", control, label }) {
             init={{
               height: 500,
               menubar: false,
+              resize: true,
               plugins: [
                 "preview", "anchor", "autolink", "autosave", "code", "fullscreen",
                 "image", "link", "lists", "media", "searchreplace", "table", "visualblocks",
@@ -25,23 +30,37 @@ export default function RTE({ name = "content", control, label }) {
               ],
               toolbar:
                 "undo redo | blocks | bold italic underline strikethrough | bullist numlist | link image media | alignleft aligncenter alignright alignjustify | removeformat | code fullscreen preview",
-              skin: window.matchMedia('(prefers-color-scheme: dark)').matches ? "oxide-dark" : "oxide",
-              content_css: window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "default",
+              skin: "oxide",
+              content_css: "default",
               content_style: `
                 body {
-                  font-family:Helvetica,Arial,sans-serif;
-                  font-size:14px;
+                  font-family: Helvetica, Arial, sans-serif;
+                  font-size: 14px;
+                  color: #111827;
                   background-color: transparent;
-                  color:'#000b24';
+                  line-height: 1.6;
+                  padding: 1rem;
+                }
+                h1, h2, h3, h4 {
+                  color: #111827;
+                  margin-top: 1rem;
+                }
+                ul, ol {
+                  padding-left: 1.2rem;
+                }
+                pre, code {
+                  background-color: #f3f4f6;
+                  color: #111827;
+                  padding: 0.2rem 0.4rem;
+                  border-radius: 0.25rem;
                 }
               `,
               branding: false,
               statusbar: false,
-              resize: true,
             }}
           />
         )}
       />
     </div>
-  )
+  );
 }
