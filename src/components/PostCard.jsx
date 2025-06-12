@@ -6,17 +6,17 @@ function PostCard({ $id, Title, FeaturedImage }) {
   const imageUrl = FeaturedImage ? appwriteService.getFileView(FeaturedImage) : '';
 
   return (
-    <Link to={`/post/${$id}`}>
-      <div className="w-full bg-gray-800 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
+    <Link to={`/post/${$id}`} className="block">
+      <div className="w-full bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
         {imageUrl && (
           <img
             src={imageUrl}
             alt={Title}
-            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300 flex justify-center"
+            className="w-full h-44 sm:h-52 md:h-56 lg:h-64 object-cover transition-transform duration-300 group-hover:scale-105"
           />
         )}
-        <div className="p-4">
-          <h2 className="text-lg md:text-xl font-semibold text-gray-200 group-hover:text-blue-600 transition-colors duration-300">
+        <div className="p-3 sm:p-4">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-200 group-hover:text-blue-500 transition-colors duration-300">
             {Title}
           </h2>
         </div>

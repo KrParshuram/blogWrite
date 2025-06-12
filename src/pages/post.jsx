@@ -70,14 +70,14 @@ function Post() {
 
   return (
     <motion.section
-      className="bg-gray-50 py-12 min-h-screen"
+      className="bg-gray-10 py-12 min-h-screen "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.7 }}
     >
       <Container>
         <motion.article
-          className="bg-gray rounded-3xl shadow-2xl max-w-5xl mx-auto overflow-hidden"
+          className="bg-gray rounded-3xl shadow-2xl max-w-5xl mx-auto overflow-hidden "
           initial="hidden"
           animate="visible"
           variants={{
@@ -90,51 +90,52 @@ function Post() {
           }}
         >
           {/* Cover Image */}
-          <motion.div
-            className="relative"
-            variants={fadeVariant}
-            custom={0}
-          >
-            <motion.img
-              src={imageUrl}
-              alt={post.Title}
-              className="w-full h-[30rem] object-cover rounded-t-3xl"
-              loading="lazy"
-              initial={{ scale: 1.5, opacity: 0.3 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            />
+        <motion.div
+          className="relative"
+          variants={fadeVariant}
+          custom={0}
+        >
+          <motion.img
+            src={imageUrl}
+            alt={post.Title}
+            className="w-full h-[20rem] md:h-[30rem] object-fill rounded-t-3xl"
+            loading="lazy"
+            initial={{ scale: 1.5, opacity: 0.3 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          />
 
-            {isAuthor && (
-              <motion.div
-                className="absolute top-4 right-4 flex gap-4 bg-white/90 backdrop-blur-lg rounded-full px-4 py-2 shadow-lg border border-gray-200"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1 }}
-              >
-                <Link to={`/edit-post/${post.$id}`}>
-                  <button
-                    className="text-green-600 hover:text-green-700 hover:scale-110 transition duration-200"
-                    title="Edit Post"
-                  >
-                    <FaEdit size={18} />
-                  </button>
-                </Link>
+          {isAuthor && (
+            <motion.div
+              className="absolute top-4 right-4 flex flex-wrap gap-4  backdrop-blur-lg rounded-full px-4 py-2 shadow-lg border border-gray-200"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1 }}
+            >
+              <Link to={`/edit-post/${post.$id}`}>
                 <button
-                  onClick={deletePost}
-                  className="text-red-600 hover:text-red-700 hover:scale-110 transition duration-200"
-                  title="Delete Post"
+                  className="text-green-600 hover:text-green-700 hover:scale-110 transition duration-200"
+                  title="Edit Post"
                 >
-                  <FaTrash size={18} />
+                  <FaEdit size={18} />
                 </button>
-              </motion.div>
-            )}
-          </motion.div>
+              </Link>
+              <button
+                onClick={deletePost}
+                className="text-red-600 hover:text-red-700 hover:scale-110 transition duration-200"
+                title="Delete Post"
+              >
+                <FaTrash size={18} />
+              </button>
+            </motion.div>
+          )}
+        </motion.div>
+
 
           {/* Content */}
           <div className="px-6 md:px-10 py-10">
             <motion.h1
-              className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight"
+              className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight dark:text-gray-100"
               variants={fadeVariant}
               custom={1}
             >
@@ -142,17 +143,17 @@ function Post() {
             </motion.h1>
 
             <motion.div
-              className="flex flex-wrap items-center gap-3 text-gray-600 text-sm md:text-base mb-6"
+              className="flex flex-wrap items-center gap-3 text-gray-600 text-sm md:text-base mb-6 dark:text-gray-100"
               variants={fadeVariant}
               custom={2}
             >
-              <span className="flex items-center gap-1">👤 <strong>{authorName}</strong></span>
-              <span className="hidden md:inline">•</span>
-              <span className="text-gray-500">{formattedDate}</span>
+              <span className="flex items-center gap-1 ">👤 <strong>{authorName}</strong></span>
+              <span className="hidden md:inline dark:text-gray-100">•</span>
+              <span className="text-gray-500 dark:text-gray-100">{formattedDate}</span>
             </motion.div>
 
             <motion.div
-              className="flex flex-wrap gap-2 mb-8"
+              className="flex flex-wrap gap-2 mb-8 dark:text-gray-100"
               variants={fadeVariant}
               custom={2.5}
             >

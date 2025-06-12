@@ -44,7 +44,7 @@ function App() {
   </>
 ) : (
   <>
-    <Background3D />
+    <Background3D className="dark"/>
     <div className="min-h-screen flex items-center justify-center bg-indigo-50 relative z-10">
       <h1 className="text-3xl font-semibold text-indigo-700 animate-pulse">
         Loading...
