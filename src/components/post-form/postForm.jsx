@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect } from "react";
+// Imports remain unchanged
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../Button";
 import Input from "../Input";
@@ -15,7 +16,6 @@ export default function PostForm({ post }) {
     watch,
     setValue,
     control,
-    getValues,
     reset,
   } = useForm({
     defaultValues: {
@@ -28,6 +28,8 @@ export default function PostForm({ post }) {
 
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (post) {
@@ -44,49 +46,13 @@ export default function PostForm({ post }) {
     }
   }, [post, reset, setValue]);
 
-  const submit = async (data) => {
-    if (post) {
-      const file = data.image[0]
-        ? await appwriteSerice.uploadFile(data.image[0])
-        : null;
-
-      if (file) {
-        appwriteSerice.deleteFile(post.featuredImage);
-      }
-
-      const dbPost = await appwriteSerice.updatePost(post.$id, {
-        ...data,
-        featuredImage: file ? file.$id : undefined,
-      });
-
-      if (dbPost) {
-        navigate(`/post/${dbPost.$id}`);
-      }
-    } else {
-      const file = await appwriteSerice.uploadFile(data.image[0]);
-      if (file) {
-        const fileId = file.$id;
-        data.featuredImage = fileId;
-
-        const dbPost = await appwriteSerice.createPost({
-          ...data,
-          userId: userData.$id,
-        });
-
-        if (dbPost) {
-          navigate(`/post/${dbPost.$id}`);
-        }
-      }
-    }
-  };
-
   const slugTransform = useCallback((value) => {
     if (value && typeof value === "string")
       return value
         .trim()
         .toLowerCase()
         .replace(/[^a-zA-Z\d\s]+/g, "-")
-        .replace(/\s/g, "-");
+        .replace(/\s+/g, "-");
   }, []);
 
   useEffect(() => {
@@ -99,56 +65,104 @@ export default function PostForm({ post }) {
     });
   }, [watch, slugTransform, setValue]);
 
+  const submit = async (data) => {
+    setIsSubmitting(true);
+    setError("");
+    try {
+      if (post) {
+        const file = data.image?.[0]
+          ? await appwriteSerice.uploadFile(data.image[0])
+          : null;
+
+        if (file && post.featuredImage) {
+          await appwriteSerice.deleteFile(post.featuredImage);
+        }
+
+        const dbPost = await appwriteSerice.updatePost(post.$id, {
+          ...data,
+          featuredImage: file ? file.$id : undefined,
+        });
+
+        if (dbPost) {
+          navigate(`/post/${dbPost.$id}`);
+        }
+      } else {
+        const file = data.image?.[0]
+          ? await appwriteSerice.uploadFile(data.image[0])
+          : null;
+
+        if (file) {
+          data.featuredImage = file.$id;
+        }
+
+        const dbPost = await appwriteSerice.createPost({
+          ...data,
+          userId: userData.$id,
+        });
+
+        if (dbPost) {
+          navigate(`/post/${dbPost.$id}`);
+        }
+      }
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      setError("There was an error processing your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-<form
-  onSubmit={handleSubmit(submit)}
-  className="grid grid-cols-1 md:grid-cols-3 gap-6"
->
+    <form onSubmit={handleSubmit(submit)} className="grid grid-cols-1 md:grid-cols-3 gap-8">
   {/* Header */}
-  <div className="col-span-full px-2">
-    <h2 className="text-2xl font-semibold tracking-wide text-center text-white bg-gradient-to-r from-gray-900 via-blue-900 to-black p-4 rounded-lg shadow-lg">
-      {post ? "Update Your Blog Post" : "Create a New Blog Post"}
+  <div className="col-span-full text-center pb-4">
+    <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+      {post ? "Edit Your Post" : "Create New Post"}
     </h2>
+    <p className="text-sm text-gray-500">
+      {post ? "Make updates and save changes" : "Start sharing your thoughts"}
+    </p>
   </div>
 
-  {/* Left Column (Title, Slug, Content) */}
-  <div className="col-span-2 px-2 space-y-4">
+  {/* Left Column (Main Fields) */}
+  <div className="col-span-2 space-y-6">
     <Input
       label="Title"
-      placeholder="Title"
+      placeholder="Post title"
       {...register("title", { required: true })}
     />
+
     <Input
       label="Slug"
-      placeholder="Slug"
+      placeholder="your-post-slug"
       {...register("slug", { required: true })}
-      onInput={(e) => {
-        setValue("slug", slugTransform(e.currentTarget.value), {
-          shouldValidate: true,
-        });
-      }}
+      onChange={(e) =>
+        setValue("slug", slugTransform(e.target.value), { shouldValidate: true })
+      }
     />
+
     <RTE label="Content" name="content" control={control} />
   </div>
 
-  {/* Right Column (Image, Status, Button) */}
-  <div className="col-span-1 px-2 space-y-4">
-    <Input
-      label="Featured Image"
-      type="file"
-      accept="image/png, image/jpg, image/jpeg"
-      {...register("image", { required: !post })}
-    />
-
-    {/* {post && (
-      <div className="w-full">
-        <img
-          src={appwriteSerice.getFileView(post.featuredImage)}
-          alt={post.title}
-          className="w-full h-48 object-cover rounded-lg shadow-md"
-        />
-      </div>
-    )} */}
+  {/* Right Column (Meta Fields) */}
+  <div className="space-y-6">
+    <div>
+      <Input
+        label="Featured Image"
+        type="file"
+        accept="image/png, image/jpeg"
+        {...register("image", { required: !post })}
+      />
+      {post?.featuredImage && (
+        <div className="mt-2 border rounded overflow-hidden">
+          <img
+            src={appwriteSerice.getFileView(post.featuredImage)}
+            alt={post.title}
+            className="w-full h-40 object-cover"
+          />
+        </div>
+      )}
+    </div>
 
     <Select
       options={["active", "inactive"]}
@@ -158,11 +172,15 @@ export default function PostForm({ post }) {
 
     <Button
       type="submit"
-      bgColor={post ? "bg-green-500" : undefined}
-      className="w-full"
+      className="w-full bg-gray-900 text-white hover:bg-gray-700 transition-colors duration-200"
+      disabled={isSubmitting}
     >
-      {post ? "Update" : "Submit"}
+      {isSubmitting ? "Submitting..." : post ? "Update Post" : "Publish Post"}
     </Button>
+
+    {error && (
+      <p className="text-sm text-red-500 text-center">{error}</p>
+    )}
   </div>
 </form>
 

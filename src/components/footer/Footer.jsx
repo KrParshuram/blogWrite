@@ -2,16 +2,16 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 py-10 px-4 mt-12">
-      <div className="container mx-auto flex flex-col gap-6 md:flex-row justify-between items-center">
+    <footer className="bg-white border-t border-gray-200 text-gray-800 py-10 px-4 mt-16">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         {/* Left section */}
         <div className="text-center md:text-left">
-          <h2 className="text-2xl font-bold text-white mb-2">Parshuram</h2>
+          <h2 className="text-xl font-semibold text-indigo-600 mb-1">Parshuram</h2>
           <p className="text-sm">
             Phone:{" "}
             <a
               href="tel:+917323801941"
-              className="text-gray-300 hover:text-white transition"
+              className="text-gray-600 hover:text-indigo-600 transition"
             >
               +91 73238 01941
             </a>
@@ -20,7 +20,7 @@ function Footer() {
             Email:{" "}
             <a
               href="mailto:yadavparshuram991@gmail.com"
-              className="text-gray-300 hover:text-white transition"
+              className="text-gray-600 hover:text-indigo-600 transition"
             >
               yadavparshuram991@gmail.com
             </a>
@@ -28,17 +28,16 @@ function Footer() {
         </div>
 
         {/* Right section */}
-        <div className="flex justify-center md:justify-end space-x-6">
+        <div className="flex space-x-4">
           <a
             href="https://www.linkedin.com/in/krparshu/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="hover:text-white transition"
+            className="text-gray-600 hover:text-indigo-600 transition"
           >
             <svg
-              className="w-6 h-6 fill-current"
-              role="img"
+              className="w-5 h-5 fill-current"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -50,7 +49,7 @@ function Footer() {
       </div>
 
       {/* Bottom section */}
-      <div className="text-center text-xs text-gray-500 mt-6">
+      <div className="text-center text-xs text-gray-400 mt-6">
         &copy; {new Date().getFullYear()} Parshuram. All rights reserved.
       </div>
     </footer>

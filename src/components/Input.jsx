@@ -1,30 +1,41 @@
-import React, {useId} from 'react'
+import React, { useId, forwardRef } from 'react';
+import clsx from 'clsx';
 
-const Input = React.forwardRef( function Input({
-    label, 
+const Input = forwardRef(function Input(
+  {
+    label,
     type = 'text',
-    className= "",
-    ...props}, 
-    ref){
-        const id = useId()
-        return (
-            <div className='w-full'>
-                {label && (
-                    <label htmlFor={id}
-                    className='inline-block mb-1 pl-1'>
-                        {label}
-                    </label>
-                )}
-                <input
-                className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
-                type={type}
-                ref={ref}
-                {...props}
-                id={id}
-                />
-            </div>
-        )
-    })
+    className = '',
+    ...props
+  },
+  ref
+) {
+  const id = useId();
 
+  return (
+    <div className="w-full">
+      {label && (
+        <label
+          htmlFor={id}
+          className="mb-1 block text-sm font-medium text-gray-600"
+        >
+          {label}
+        </label>
+      )}
+      <input
+        id={id}
+        ref={ref}
+        type={type}
+        className={clsx(
+          'w-full px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-400',
+          'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
+          'transition duration-150 ease-in-out',
+          className
+        )}
+        {...props}
+      />
+    </div>
+  );
+});
 
-export default Input
+export default Input;

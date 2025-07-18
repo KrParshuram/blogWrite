@@ -2,11 +2,11 @@ import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { Controller } from 'react-hook-form';
 
-export default function RTE({ name = "content", control, label }) {
+export default function RTE({ name = 'content', control, label }) {
   return (
     <div className="w-full">
       {label && (
-        <label className="inline-block mb-1 pl-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="block mb-2 text-sm font-medium text-[#0F172A] dark:text-white">
           {label}
         </label>
       )}
@@ -20,43 +20,73 @@ export default function RTE({ name = "content", control, label }) {
             value={value}
             onEditorChange={onChange}
             init={{
-              height: 500,
+              height: 420,
               menubar: false,
-              resize: true,
               plugins: [
-                "preview", "anchor", "autolink", "autosave", "code", "fullscreen",
-                "image", "link", "lists", "media", "searchreplace", "table", "visualblocks",
-                "wordcount", "emoticons", "help"
+                'preview', 'anchor', 'autolink', 'autosave', 'code', 'fullscreen',
+                'image', 'link', 'lists', 'media', 'searchreplace', 'table',
+                'visualblocks', 'wordcount', 'emoticons'
               ],
               toolbar:
-                "undo redo | blocks | bold italic underline strikethrough | bullist numlist | link image media | alignleft aligncenter alignright alignjustify | removeformat | code fullscreen preview",
-              skin: "oxide",
-              content_css: "default",
+                'undo redo | bold italic underline | bullist numlist | link image media | alignleft aligncenter alignright | code preview fullscreen',
+              skin: 'oxide',
+              content_css: 'default',
               content_style: `
+                :root {
+                  color-scheme: light dark;
+                }
                 body {
-                  font-family: Helvetica, Arial, sans-serif;
-                  font-size: 14px;
-                  color: #111827;
-                  background-color: transparent;
-                  line-height: 1.6;
-                  padding: 1rem;
+                  font-family: Inter, system-ui, sans-serif;
+                  font-size: 16px;
+                  line-height: 1.75;
+                  padding: 1.5rem;
+                  color: #1e293b;
+                  background-color: #ffffff;
+                  max-width: 700px;
+                  margin: auto;
                 }
+
                 h1, h2, h3, h4 {
-                  color: #111827;
-                  margin-top: 1rem;
+                  font-weight: 600;
+                  color: #0f172a;
+                  margin-top: 2rem;
+                  margin-bottom: 1rem;
                 }
+
+                p {
+                  margin: 1rem 0;
+                }
+
+                a {
+                  color: #0284c7;
+                  text-decoration: underline;
+                }
+
                 ul, ol {
-                  padding-left: 1.2rem;
+                  margin-left: 2rem;
+                  padding-left: 1rem;
                 }
-                pre, code {
-                  background-color: #f3f4f6;
-                  color: #111827;
-                  padding: 0.2rem 0.4rem;
+
+                code, pre {
+                  background-color: #f1f5f9;
+                  color: #0f172a;
+                  padding: 0.3rem 0.5rem;
                   border-radius: 0.25rem;
+                  font-family: 'JetBrains Mono', monospace;
+                  font-size: 14px;
+                }
+
+                blockquote {
+                  border-left: 4px solid #94a3b8;
+                  padding-left: 1rem;
+                  color: #475569;
+                  margin: 1rem 0;
+                  font-style: italic;
                 }
               `,
               branding: false,
               statusbar: false,
+              resize: false,
             }}
           />
         )}
